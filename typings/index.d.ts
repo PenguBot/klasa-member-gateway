@@ -9,11 +9,8 @@ declare module 'klasa-member-gateway' {
 		Client,
 		Schema,
 		Settings,
-		GatewayStorage,
-		GatewayDriver,
-		GuildResolvable,
-		GatewayGetPathOptions,
-		GatewayGetPathResult
+		Gateway,
+		GatewayDriver
 	} from 'klasa';
 
 	class MemberGatewayClient extends Client {
@@ -22,33 +19,25 @@ declare module 'klasa-member-gateway' {
 
 	export { MemberGatewayClient as Client };
 
-	export class KlasaMember extends GuildMember {
-		public settings: Settings;
-		public toJSON(): KlasaMemberJSON;
-	}
-
-	export class MemberGateway extends GatewayStorage {
-		public store: GatewayDriver;
-		public syncQueue: Collection<string, Promise<Settings>>;
-		public readonly Settings: Settings;
+	export class MemberGateway extends Gateway {
 		public readonly idLength: number;
-		private _synced: boolean;
-
-		public get(id: string | [Snowflake, Snowflake]): Settings | null;
-		public create(id: string | [Snowflake, Snowflake], data?: Object): Settings;
-		public sync(input: string): Promise<Settings>;
-		public sync(input?: string[]): Promise<this>;
+		public acquire(target: unknown, id?: string): Settings;
+		public get(id: string): Settings | null;
+		public create(target: unknown, id?: string): Settings;
 	}
 
-	export type KlasaMemberJSON = {
-		guildID: Snowflake;
-		userID: Snowflake;
-		joinedTimestamp: number;
-		lastMessageChannelID?: Snowflake;
-		deleted: boolean;
-		nickname?: string;
-		displayName: string;
-		roles: Array<Snowflake>;
+}
+
+declare module 'discord.js' {
+
+	import { Schema, Settings } from 'klasa';
+
+	export interface GuildMember {
 		settings: Settings;
-	};
+	}
+
+	export namespace Client {
+		export const defaultMemberSchema: Schema;
+	}
+
 }
