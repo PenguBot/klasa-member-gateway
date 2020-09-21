@@ -1,11 +1,7 @@
 const { Structures } = require('discord.js');
-const KlasaGuildMemberStore = require('./KlasaGuildMemberStore');
+const KlasaGuildMemberManager = require('./KlasaGuildMemberManager');
 
 Structures.extend('Guild', Guild => {
-	/**
-	 * Mutates KlasaGuild to include a KlasaMemberStore with our extensions
-	 * @extends external:Guild
-	 */
 	class KlasaGuild extends Guild {
 
 		constructor(client, data) {
@@ -13,12 +9,7 @@ Structures.extend('Guild', Guild => {
 			const { members, ...restData } = data || {};
 			super(client, Object.keys(restData).length ? restData : undefined);
 
-			/**
-			 * Storage for KlasaMembers
-			 * @since 0.0.1
-			 * @type {KlasaGuildMemberStore}
-			 */
-			this.members = new KlasaGuildMemberStore(this);
+			this.members = new KlasaGuildMemberManager(this);
 			if (members) for (const member of members) this.members.add(member);
 		}
 

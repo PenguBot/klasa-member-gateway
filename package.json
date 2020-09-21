@@ -20,7 +20,8 @@
     "docs": "npx dg --source src --custom guides/.docconfig.json --output dist/docs.json --logging"
   },
   "peerDependencies": {
-    "klasa": "github:dirigeants/klasa#master"
+    "discord.js": "^12.3.1",
+    "klasa": "github:pengubot/klasa#stable"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
