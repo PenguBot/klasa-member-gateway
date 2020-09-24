@@ -6,7 +6,7 @@ module.exports = Structures.extend('GuildMember', GuildMember => {
 		constructor(...args) {
 			super(...args);
 
-			this.settings = this.client.gateways.get('members').acquire(this, `${this.guild.id}.${this.id}`);
+			this.settings = this.client.gateways.members.get(`${this.guild.id}.${this.id}`, true);
 		}
 
 		toJSON() {
