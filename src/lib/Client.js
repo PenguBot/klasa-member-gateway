@@ -13,9 +13,9 @@ module.exports = class extends Client {
 
 	static [Client.plugin]() {
 		mergeDefault(CLIENT, this.options);
-		const { members } = this.options.gateways;
-		members.schema = 'schema' in members ? members.schema : this.constructor.defaultMemberSchema;
-		this.gateways.register(new MemberGateway(this, 'members', members));
+		const { members } = this.options;
+		const schema = members || this.constructor.defaultMemberSchema;
+		this.gateways.register(new MemberGateway(this, 'members', { schema }));
 	}
 
 };
